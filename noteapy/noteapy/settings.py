@@ -102,6 +102,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Variable to Notify the Application About Custom User Model 
+AUTH_USER_MODEL = "main.User" 
+
+# Variable to Notify the Applicaiton About Custom User Authentication 
+# AUTHENTICATION_BACKENDS = ('main.backend.authPIN', )
+
+# Setting the Default Login Page URL 
+LOGIN_URL = "/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/

@@ -1,0 +1,62 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">New Category</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'main:Notes' %}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'main:Categories' %}">Categories</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">New Category</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title pt-2 pb-2">Information</h5>
+                    </div>
+
+                    <form method="POST" action="{% url 'main:New_Category' %}">
+                        {% csrf_token %}
+
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <label for="name" class="control-label">{{ form.name.label }}</label>
+                                {{ form.name }}
+
+                                {% for error in form.name.errors %}
+                                    <p class="text-danger pt-1">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+    
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

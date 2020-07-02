@@ -6,8 +6,19 @@ app_name = "main"
 urlpatterns = [
 
     path('', views.Login.as_view(), name="Login"), 
-    path('home/', views.ManageNotes.as_view(), name="Notes"), 
-    path('account/', views.load_admin_dashboard_account, name="Account"), 
     path('logout/', views.logout_admin_dashboard, name="Logout"), 
+
+    
+    path('home/', views.ManageNotes.as_view(), name="Notes"), 
+
+    ## Categories ## 
+    path('categories/', views.ManageCategories.as_view(), name="Categories"), 
+    path('categories/new', views.NewCategory.as_view(), name="New_Category"), 
+
+    
+    ## Account ##
+    path('account/', views.Account.as_view(), name="Account"), 
+    path('account/update/', views.UpdateAccount.as_view(), name="Update_Account"),
+    
 
 ]

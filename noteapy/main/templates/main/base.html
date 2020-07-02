@@ -28,7 +28,13 @@
     <!-- Extra CSS for Form Elements Page -->
 
 
-</head>
+    <!-- Extra CSS for Table Elements Page -->
+    <link rel="stylesheet" type="text/css" href="{% static 'main/assets/extra-libs/multicheck/multicheck.css' %}">
+    <link href="{% static 'main/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css' %}" rel="stylesheet">
+    <link href="{% static 'main/dist/css/style.min.css' %}" rel="stylesheet">
+    <!-- Extra CSS for Table Elements Page -->
+
+</head> 
 
 <body>
     <!-- ============================================================== -->
@@ -138,6 +144,19 @@
 
     </script>
     <!-- Extra JS for Form Elements Page -->
+
+
+    <!-- Extra JS for Table Elements Page -->
+    <script src="{% static 'main/assets/extra-libs/multicheck/datatable-checkbox-init.js' %}"></script>
+    <script src="{% static 'main/assets/extra-libs/multicheck/jquery.multicheck.js' %}"></script>
+    <script src="{% static 'main/assets/extra-libs/DataTables/datatables.min.js' %}"></script>
+    <script>
+        /****************************************
+         *       Basic Table                   *
+         ****************************************/
+        $('#zero_config').DataTable();
+    </script>
+    <!-- Extra JS for Table Elements Page -->
 
 
 </body>

@@ -1,0 +1,112 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Account</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'main:Notes' %}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'main:Account' %}">Account</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Update Account</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title pt-2 pb-2">Information</h5>
+                    </div>
+
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+
+                        <div class="card-body">
+
+                            <div class="form-row pb-2">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="control-label">{{ form.username.label }}</label>
+                                        {{ form.username }}
+        
+                                        {% for error in form.username.errors %}
+                                            <p class="text-danger pt-1">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="control-label">{{ form.name.label }}</label>
+                                        {{ form.name }}
+        
+                                        {% for error in form.name.errors %}
+                                            <p class="text-danger pt-1">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row pb-2">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="control-label">New Password</label>
+                                        <input type="password" name="new_password" class="form-control" placeholder="Enter New Password Here">
+        
+                                        {% if new_password_error %}
+                                            <p class="text-danger pt-1">{{ new_password_error }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="control-label">Confirm Password</label>
+                                        <input type="password" name="confirm_password" class="form-control" placeholder="Enter New Password Again to Confirm">
+        
+                                        {% if confirm_password_error %}
+                                            <p class="text-danger pt-1">{{ confirm_password_error }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row pb-2">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="control-label">{{ form.occupation.label }}</label>
+                                        {{ form.occupation }}
+        
+                                        {% for error in form.occupation.errors %}
+                                            <p class="text-danger pt-1">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

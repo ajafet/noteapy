@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Categories</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'main:Notes' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <form action="{% url 'main:Categories' %}" method="GET" class="form-inline my-2 my-lg-1">
+                            <input class="form-control mr-sm-2" name="search_text" type="search" placeholder="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                        <div class="form-inline my-2 my-lg-1">
+                            <a class="btn btn-success" href="{% url 'main:New_Category' %}">New Category</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+
+                            {% if not object_list %}
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="pb-3 pt-4">
+                                                <h2>No Categories Found</h2>
+                                                <p><small>Add a Category by Clicking the Button "New Category"</small></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% else %} 
+                                <thead>
+                                    <tr>
+                                        <th width="55%">Name</th>
+                                        <th width="25%" class="text-center">Notes</th>
+                                        <th width="10%"></th>
+                                        <th width="10%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for category in object_list %}
+                                        <tr>
+                                            <td style="vertical-align: middle;">{{ category.name }}</td>
+                                            <td style="vertical-align: middle;" class="text-center">#</td>
+                                            <td style="vertical-align: middle;"><a class="btn btn-info text-white" href="#">View</a></td>
+                                            <td style="vertical-align: middle;"><a class="btn btn-primary text-white" href="#">Edit</a></td>
+                                        </tr>
+                                    {% endfor %}    
+                                </tbody>
+                            {% endif %}
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

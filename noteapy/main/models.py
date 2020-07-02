@@ -23,7 +23,7 @@ class User(AbstractBaseUser):
 
     username     = models.CharField(max_length=128, unique=True)
     name         = models.CharField(max_length=30)
-    occupation   = models.CharField(max_length=128) 
+    occupation   = models.CharField(max_length=128, blank=True, null=True) 
 
     REQUIRED_FIELDS = ['name'] 
     USERNAME_FIELD = 'username' 
@@ -42,7 +42,7 @@ class Notes(models.Model):
     content  = models.TextField()
     author   = models.ForeignKey(User, on_delete=models.CASCADE) 
     category = models.ForeignKey(Categories, on_delete=models.CASCADE) 
-
+    num_of_favorites = models.IntegerField()
 
 class Favorites(models.Model): 
 

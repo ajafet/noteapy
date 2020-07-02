@@ -13,3 +13,5 @@ class ManageNotes(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, "main/notes/manage_notes.html")
+
+    

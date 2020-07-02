@@ -34,9 +34,4 @@ class Login(View):
 def logout_admin_dashboard(request): 
     logout(request)    
     return redirect('main:Login') 
-
-
-@login_required
-def load_admin_dashboard_account(request): 
-    return render(request, "main/account.html")
  

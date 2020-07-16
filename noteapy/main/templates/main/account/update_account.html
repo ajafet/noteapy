@@ -34,7 +34,6 @@
                         {% csrf_token %}
 
                         <div class="card-body">
-
                             <div class="form-row pb-2">
                                 <div class="col">
                                     <div class="form-group">
@@ -61,22 +60,22 @@
                             <div class="form-row pb-2">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label class="control-label">New Password</label>
-                                        <input type="password" name="new_password" class="form-control" placeholder="Enter New Password Here">
+                                        <label class="control-label">{{ form.new_password.label }}</label>
+                                        {{ form.new_password }}
         
-                                        {% if new_password_error %}
-                                            <p class="text-danger pt-1">{{ new_password_error }}</p>
-                                        {% endif %}
+                                        {% for error in form.new_password.errors %}
+                                            <p class="text-danger pt-1">{{ error }}</p>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label class="control-label">Confirm Password</label>
-                                        <input type="password" name="confirm_password" class="form-control" placeholder="Enter New Password Again to Confirm">
+                                        <label class="control-label">{{ form.confirm_password.label }}</label>
+                                        {{ form.confirm_password }}
         
-                                        {% if confirm_password_error %}
-                                            <p class="text-danger pt-1">{{ confirm_password_error }}</p>
-                                        {% endif %}
+                                        {% for error in form.confirm_password.errors %}
+                                            <p class="text-danger pt-1">{{ error }}</p>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>

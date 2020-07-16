@@ -35,30 +35,13 @@ class UpdateAccount(LoginRequiredMixin, View):
         return render(request, "main/account/update_account.html", context)
 
     def post(self, request):
-
-        form = UpdateUserForm(request.POST, instance=request.user)
+        form = UpdateUserForm(request.POST, instance=request.user) 
         context = {
             "form": form,
         }
-
-
-        # Check If Updating Password
-        new_password = request.POST.get("new_password")
-        confirm_password = request.POST.get("confirm_password")
-        
-        if new_password: 
-            if len(new_password) < 8: 
-                context["new_password_error"] = "Must be at Least 8 Characters"
-            else: 
-                if new_password != confirm_password: 
-                    context["confirm_password_error"] = "Must Match New Password"
-                # else: 
-                    #passwords match then save new password as password 
-
-
-        if form.is_valid() and "new_password_error" not in context and "confirm_password_error" not in context:
+        if form.is_valid():
             form.save()
-            return redirect("main:Account")
+            return redirect('main:Account')
         else: 
             return render(request, "main/account/update_account.html", context)
 

@@ -1,0 +1,82 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">View Category</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'main:Notes' %}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'main:Categories' %}">Categories</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">View Category</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <h5 class="card-title pt-2">Information</h5>
+                        <div class="my-2 my-lg-1">
+                            <span class="pr-2"><a class="btn btn-primary btn-sm text-white" href="{% url 'main:Update_Category' id=category_id %}">Edit</a></span>
+                            <a class="btn btn-danger btn-sm text-white" href="#">Delete</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <h3>{{ object.name }}</h3>
+
+                        <div class="pt-2 pb-4">
+
+                            <table class="table table-striped">
+                                {% if not notes %}
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <div class="pb-3 pt-4">
+                                                    <h2>No Notes Found</h2>
+                                                    <p><small>Add a Note Through <i class="mdi mdi-clipboard-text"></i>My Notes</small></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                {% else %} 
+                                    <thead>
+                                        <tr>
+                                            <th width="90%">Title</th>
+                                            <th width="10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for note in notes %}
+                                            <tr>
+                                                <td style="vertical-align: middle;">{{ note.title }}</td>
+                                                <td style="vertical-align: middle;"><a class="btn btn-info text-white" href="#">View</a></td>
+                                            </tr>
+                                        {% endfor %}    
+                                    </tbody>
+                                {% endif %}
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

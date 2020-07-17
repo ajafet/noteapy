@@ -92,4 +92,21 @@ class UpdateCategory(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         id_ = self.kwargs.get("id")
         return reverse("main:View_Category", kwargs={"id": id_})
+
+
+class DeleteCategory(LoginRequiredMixin, DeleteView): 
+    template_name = "main/categories/delete_category.html"
+
+    def get_object(self): 
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Categories, id=id_)
+
+    def get_context_data(self, **kwargs):          
+        context = super().get_context_data(**kwargs)                     
+        context["category_id"] = self.kwargs.get("id")
+        return context
+
+    def get_success_url(self):
+        return reverse("main:Categories")
+
     

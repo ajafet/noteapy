@@ -26,11 +26,13 @@ class ManageCategories(LoginRequiredMixin, ListView):
         else:
             object_list = self.model.objects.all().order_by('id') 
 
-        return object_list
+        categories = []
 
-    # def get_context_data(self, **kwargs):          
-    #     context = super().get_context_data(**kwargs)                     
-    #     return context
+        for obj in object_list: 
+            notes_count = Notes.objects.filter(category=obj).count()
+            categories.append({"categories": obj, "notes_count": notes_count})
+
+        return categories
 
 
 class NewCategory(LoginRequiredMixin, View): 
@@ -101,12 +103,19 @@ class DeleteCategory(LoginRequiredMixin, DeleteView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Categories, id=id_)
 
-    def get_context_data(self, **kwargs):          
+    def get_context_data(self, **kwargs):    
+
+        category = self.get_object()
+        notes_in_category = Notes.objects.filter(category=category)
+        childs_list = list(notes_in_category)
+
         context = super().get_context_data(**kwargs)                     
-        context["category_id"] = self.kwargs.get("id")
+        context["notes"] = notes_in_category
+        context["category_id"] = category.id
+
         return context
 
     def get_success_url(self):
-        return reverse("main:Categories")
+        return reverse("main:Categories") 
 
     

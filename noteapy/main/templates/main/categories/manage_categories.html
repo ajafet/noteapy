@@ -51,17 +51,17 @@
                             {% else %} 
                                 <thead>
                                     <tr>
-                                        <th width="60%">Name</th>
-                                        <th width="25%" class="text-center">Notes</th>
+                                        <th class="font-weight-bold" width="60%">Name</th>
+                                        <th width="25%" class="font-weight-bold text-center">Notes</th>
                                         <th width="15%"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for category in object_list %}
                                         <tr>
-                                            <td style="vertical-align: middle;">{{ category.name }}</td>
-                                            <td style="vertical-align: middle;" class="text-center">#</td>
-                                            <td style="vertical-align: middle;"><a class="btn btn-info text-white" href="{% url 'main:View_Category' id=category.id %}">View</a></td>
+                                            <td style="vertical-align: middle;">{{ category.categories.name }}</td>
+                                            <td style="vertical-align: middle;" class="text-center">{% if category.notes_count == 0 %} None {% else %} {{ category.notes_count }} {% endif %} </td>
+                                            <td style="vertical-align: middle;"><a class="btn btn-info text-white" href="{% url 'main:View_Category' id=category.categories.id %}">View</a></td>
                                         </tr>
                                     {% endfor %}    
                                 </tbody>

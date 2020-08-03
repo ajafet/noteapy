@@ -54,15 +54,17 @@
                                 {% else %} 
                                     <thead>
                                         <tr>
-                                            <th width="90%">Title</th>
-                                            <th width="10%"></th>
+                                            <th class="font-weight-bold" width="15%">Title</th>
+                                            <th class="font-weight-bold" width="75%">Content</th>
+                                            <th class="text-center" width="10%"><i class="far fa-star pr-1"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for note in notes %}
                                             <tr>
                                                 <td style="vertical-align: middle;">{{ note.title }}</td>
-                                                <td style="vertical-align: middle;"><a class="btn btn-info text-white" href="#">View</a></td>
+                                                <td style="vertical-align: middle;">{{ note.content }}</td>
+                                                <td class="text-center" style="vertical-align: middle;">{{ note.num_of_favorites }}</td>
                                             </tr>
                                         {% endfor %}    
                                     </tbody>

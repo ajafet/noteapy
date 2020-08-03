@@ -15,3 +15,13 @@ class CategoryForm(ModelForm):
         widgets = {
             "name": TextInput(attrs={"class": "form-control", "placeholder": "Enter Name Here"}), 
         }
+
+    def is_valid(self):
+        result = super().is_valid()
+
+        # Append CSS Error Class to Highlight Inputs Red
+        for x in (self.fields if '__all__' in self.errors else self.errors):
+            attrs = self.fields[x].widget.attrs
+            attrs.update({'class': attrs.get('class', '') + ' is-invalid'})
+
+        return result

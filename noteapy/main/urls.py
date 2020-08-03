@@ -9,8 +9,9 @@ urlpatterns = [
     path('logout/', views.logout_admin_dashboard, name="Logout"), 
 
     ## Notes ## 
-    path('home/', views.ManageNotes.as_view(), name="Notes"), 
-    
+    path('notes/', views.ManageNotes.as_view(), name="Notes"), 
+    path('notes/new', views.NewNote.as_view(), name="New_Note"), 
+
 
     ## Categories ## 
     path('categories/', views.ManageCategories.as_view(), name="Categories"), 

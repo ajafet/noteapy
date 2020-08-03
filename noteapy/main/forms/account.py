@@ -44,6 +44,15 @@ class UpdateUserForm(ModelForm):
 
         return self.cleaned_data   
 
+    def is_valid(self):
+        result = super().is_valid()
+
+        # Append CSS Error Class to Highlight Inputs Red
+        for x in (self.fields if '__all__' in self.errors else self.errors):
+            attrs = self.fields[x].widget.attrs
+            attrs.update({'class': attrs.get('class', '') + ' is-invalid'})
+
+        return result
 
     def save(self, commit=True):
         

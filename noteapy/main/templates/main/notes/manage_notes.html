@@ -23,57 +23,122 @@
 
     <div class="container-fluid">
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body d-flex justify-content-between">
+        {% if categories_count != 0 %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between">
 
-                        <!--  -->
-                        <select class="select2 form-control custom-select" style="width: 45%; height:36px;">
-                            <optgroup label="Filter">
-                                <option value="AK">Alaska</option>
-                                <option value="HI">Hawaii</option>
-                            </optgroup>                        
-                        </select>
-                        <!--  -->
+                            <form action="{% url 'main:Notes' %}" method="GET" id="filter_form" style="width: 45%; height:36px;">
+                                <select class="select2 form-control custom-select" style="width: 100%;" name="filter" onchange="$('#filter_form').submit();">
 
-                        <div class="pt-1">
-                            <a class="btn btn-success btn" href="{% url 'main:New_Note' %}">New Note</a>
+                                    {% if filter_id %}
+                                        <option value="">{{ filter_name }}</option>
+                                    {% else %}
+                                        <option value="">Filter</option>
+                                    {% endif %}
+
+                                    {% for category in categories %}
+                                        {% if filter_name != category.name %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endif %}
+                                    {% endfor %} 
+
+                                </select>
+                            </form>
+                            
+                            <div class="pt-1">
+                                <a class="btn btn-success btn" href="{% url 'main:New_Note' %}">New Note</a>
+                            </div>
+
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
 
-        {% for category in object_list %}
-            {% if category.notes %}
+
+        {% if categories_count == 0 %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body pb-1">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="pb-2 pt-4">
+                                                <h2>No Categories Found</h2>
+                                                <p class="pb-0"><small>Add a Category by Navigating to the "<i class="mdi mdi-view-dashboard"></i> Categories" Menu<br>A Category is Needed to Add a Note</small></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        {% else %} 
+
+
+            {% if notes_count == 0 %}
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ category.name }}</h5>
+                            <div class="card-body pb-1">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <div class="pb-2 pt-4">
+                                                    <h2>No Notes Found</h2>
+                                                    <p class="pb-0"><small>Add a Note by Clicking the Button "New Note"</small></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="comment-widgets scrollable">
-                                {% for note in category.notes %}
-                                    <div class="d-flex flex-row comment-row m-t-0">
-                                        <div class="comment-text w-100">
-                                            <h6 class="font-medium font-weight-bold">{{ note.title }}</h6>
-                                            <span class="m-b-15 d-block">{{ note.content }}</span>
-                                            <div class="comment-footer">
-                                                <span class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>69</span> 
-                                                <button type="button" class="btn btn-cyan btn">Edit</button>
-                                                <button type="button" class="btn btn-danger btn">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>                
+                        </div>  
                     </div>
-                </div>
+                </div>     
+            {% else %}
+
+                {% for category in object_list %}
+                    {% if category.notes %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ category.name }}</h5>
+                                    </div>
+                                    <div class="comment-widgets scrollable">
+                                        {% for note in category.notes %}
+                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <div class="comment-text w-100">
+                                                    <h6 class="font-medium font-weight-bold">{{ note.title }}</h6>
+                                                    <span id="{{ note.id }}" class="m-b-15 d-block">{{ note.content }}</span>
+                                                    <div class="comment-footer">
+                                                        <span class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>69</span> 
+                                                        <a class="btn btn-cyan" href="{% url 'main:Update_Note' id=note.id %}">Edit</a>
+                                                        <a class="btn btn-danger" href="{% url 'main:Delete_Note' id=note.id %}">Delete</a>
+                                                        <button class="btn btn-primary" onclick="copy_to_clipboard('{{ note.id }}');">Copy</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>                
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
             {% endif %}
-        {% endfor %}
+
+           
+        {% endif %}
 
     </div>
 

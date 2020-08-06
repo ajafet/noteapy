@@ -19,7 +19,14 @@ class ManageNotes(LoginRequiredMixin, ListView):
     def get_queryset(self): 
 
         # Get Categories From Users First
-        categories_queryset = Categories.objects.filter(user=self.request.user).order_by('name')
+
+        # Check if Filter Is Present
+        if self.request.GET.get("filter"):
+            filter_id = self.request.GET.get("filter")
+            categories_queryset = Categories.objects.filter(id=filter_id).order_by('name')
+        else: 
+            categories_queryset = Categories.objects.filter(user=self.request.user).order_by('name')
+
         categories = []
 
         for category in categories_queryset:
@@ -31,6 +38,38 @@ class ManageNotes(LoginRequiredMixin, ListView):
             category.update({"notes": list(notes)})
 
         return categories
+
+    def get_context_data(self, **kwargs):    
+
+        context = super().get_context_data(**kwargs)
+
+        if self.request.GET.get("filter"):
+            filter_id = self.request.GET.get("filter")
+
+            # Checking for No Notes or Categories 
+            categories = Categories.objects.filter(user=self.request.user)
+            category_filtered = Categories.objects.get(id=filter_id)
+            notes_count = Notes.objects.filter(category=category_filtered).count() 
+
+            context["filter_id"] = filter_id
+            context["filter_name"] = category_filtered.name
+
+            context["categories"] = categories
+            context["categories_count"] = categories.count()
+            context["notes_count"] = notes_count
+
+        else: 
+
+            # Checking for No Notes or Categories 
+            categories = Categories.objects.filter(user=self.request.user)
+            notes_count = Notes.objects.filter(author=self.request.user).count()
+
+            context["categories"] = categories
+            context["categories_count"] = categories.count()
+            context["notes_count"] = notes_count
+
+
+        return context
 
 
 class NewNote(LoginRequiredMixin, View): 
@@ -55,4 +94,26 @@ class NewNote(LoginRequiredMixin, View):
             return redirect('main:Notes')
         else: 
             return render(request, "main/notes/new_note.html", context)
+
+
+class UpdateNote(LoginRequiredMixin, UpdateView): 
+    template_name = "main/notes/update_note.html"
+    form_class = NotesForm 
+
+    def get_object(self): 
+        id_ = self.kwargs.get("id") 
+        return get_object_or_404(Notes, id=id_)
+
+    def get_success_url(self):
+        return reverse("main:Notes")
     
+
+class DeleteNote(LoginRequiredMixin, DeleteView): 
+    template_name = "main/notes/delete_note.html"
+
+    def get_object(self): 
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Notes, id=id_)
+
+    def get_success_url(self):
+        return reverse("main:Notes") 

@@ -11,7 +11,8 @@ urlpatterns = [
     ## Notes ## 
     path('notes/', views.ManageNotes.as_view(), name="Notes"), 
     path('notes/new', views.NewNote.as_view(), name="New_Note"), 
-
+    path('notes/update/<int:id>/', views.UpdateNote.as_view(), name="Update_Note"),
+    path('notes/delete/<int:id>/', views.DeleteNote.as_view(), name="Delete_Note"),
 
     ## Categories ## 
     path('categories/', views.ManageCategories.as_view(), name="Categories"), 
@@ -21,6 +22,7 @@ urlpatterns = [
     path('categories/delete/<int:id>/', views.DeleteCategory.as_view(), name="Delete_Category"),
 
     ## Favorites ##
+    
     ## Search Notes ##
 
     ## Account ##

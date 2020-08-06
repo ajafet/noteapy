@@ -1,0 +1,73 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Delete Note</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'main:Notes' %}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'main:Notes' %}">My Notes</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Delete Note</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-danger">
+                        <h5 class="card-title pt-2 pb-2 text-white">Do you want to delete the following note?</h5>
+                    </div>
+
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+
+                        <div class="card-body">
+
+                            <div class="pt-2 pb-1">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="font-weight-bold" width="15%">Title</th>
+                                            <th class="font-weight-bold" width="75%">Content</th>
+                                            <th class="text-center" width="10%"><i class="far fa-star pr-1"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="vertical-align: middle;">{{ object.title }}</td>
+                                            <td style="vertical-align: middle;">{{ object.content }}</td>
+                                            <td class="text-center" style="vertical-align: middle;">{{ object.num_of_favorites }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-success">Yes</button>
+                            </div>
+                            <a class="btn btn-warning" href="{% url 'main:Notes' %}">No</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

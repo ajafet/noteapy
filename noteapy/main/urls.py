@@ -24,6 +24,7 @@ urlpatterns = [
     ## Favorites ##
     
     ## Search Notes ##
+    path('search/', views.SearchNotes.as_view(), name="Search"), 
 
     ## Account ##
     path('account/', views.Account.as_view(), name="Account"), 

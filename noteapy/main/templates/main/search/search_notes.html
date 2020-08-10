@@ -1,0 +1,163 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Search Notes</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'main:Notes' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Search Notes</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body justify-content-between">
+                        <form action="{% url 'main:Search' %}" method="GET" class="form-inline my-2 my-lg-1">
+                            <input class="form-control mr-sm-2 flex-grow-1" name="search_text" type="search" placeholder="Search Box">
+                            <select class="form-control custom-select mr-sm-2" name="search_option">
+                                <option value="1">Note</option>
+                                <option value="2">Category</option>
+                            </select>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body pb-1">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="pb-3 pt-4">
+
+                                            {% if nothing_found == 1 %}
+                                                <h2>No Results Found</h2>
+                                                <p><small>Try Again Later</small></p>
+                                            {% else %}
+                                                <h2>Browse Other's Notes</h2>
+                                                <p><small>Enter Want You Want to Search in the "Search Box"<br>Select What Your Looking for and Click the "Search" Button</small></p>
+                                            {% endif %}
+
+                                            {% if nothing_found == 1 %}
+
+                                            
+                                            {% endif %}
+
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>  
+            </div>
+        </div>
+
+        {% if categories_count == 0 %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body pb-1">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="pb-2 pt-4">
+                                                <h2>No Categories Found</h2>
+                                                <p class="pb-0"><small>Add a Category by Navigating to the "<i class="mdi mdi-view-dashboard"></i> Categories" Menu<br>A Category is Needed to Add a Note</small></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        {% else %} 
+
+
+            {% if notes_count == 0 %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body pb-1">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <div class="pb-2 pt-4">
+                                                    <h2>No Notes Found</h2>
+                                                    <p class="pb-0"><small>Add a Note by Clicking the Button "New Note"</small></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>  
+                    </div>
+                </div>     
+            {% else %}
+
+                {% for category in object_list %}
+                    {% if category.notes %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ category.name }}</h5>
+                                    </div>
+                                    <div class="comment-widgets scrollable">
+                                        {% for note in category.notes %}
+                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <div class="comment-text w-100">
+                                                    <h6 class="font-medium font-weight-bold">{{ note.title }}</h6>
+                                                    <span id="{{ note.id }}" class="m-b-15 d-block">{{ note.content }}</span>
+                                                    <div class="comment-footer">
+                                                        <span class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>69</span> 
+                                                        <a class="btn btn-cyan" href="{% url 'main:Update_Note' id=note.id %}">Edit</a>
+                                                        <a class="btn btn-danger" href="{% url 'main:Delete_Note' id=note.id %}">Delete</a>
+                                                        <button class="btn btn-primary" onclick="copy_to_clipboard('{{ note.id }}');">Copy</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>                
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            {% endif %}
+
+           
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

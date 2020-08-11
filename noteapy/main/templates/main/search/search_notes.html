@@ -29,10 +29,6 @@
                     <div class="card-body justify-content-between">
                         <form action="{% url 'main:Search' %}" method="GET" class="form-inline my-2 my-lg-1">
                             <input class="form-control mr-sm-2 flex-grow-1" name="search_text" type="search" placeholder="Search Box">
-                            <select class="form-control custom-select mr-sm-2" name="search_option">
-                                <option value="1">Note</option>
-                                <option value="2">Category</option>
-                            </select>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
                     </div>
@@ -40,41 +36,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body pb-1">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <td class="text-center">
-                                        <div class="pb-3 pt-4">
 
-                                            {% if nothing_found == 1 %}
-                                                <h2>No Results Found</h2>
-                                                <p><small>Try Again Later</small></p>
-                                            {% else %}
-                                                <h2>Browse Other's Notes</h2>
-                                                <p><small>Enter Want You Want to Search in the "Search Box"<br>Select What Your Looking for and Click the "Search" Button</small></p>
-                                            {% endif %}
-
-                                            {% if nothing_found == 1 %}
-
-                                            
-                                            {% endif %}
-
-                                            
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>  
-            </div>
-        </div>
-
-        {% if categories_count == 0 %}
+        {% if not object_list %}
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -84,8 +47,13 @@
                                     <tr>
                                         <td class="text-center">
                                             <div class="pb-2 pt-4">
-                                                <h2>No Categories Found</h2>
-                                                <p class="pb-0"><small>Add a Category by Navigating to the "<i class="mdi mdi-view-dashboard"></i> Categories" Menu<br>A Category is Needed to Add a Note</small></p>
+                                                {% if search_text %}
+                                                    <h2>No Results Found</h2>
+                                                    <p><small>Try Again Later</small></p>
+                                                {% elif not search_text %}
+                                                    <h2>Browse Other's Notes</h2>
+                                                    <p><small>Enter Want You Want to Search in the "Search Box"</small></p>
+                                                {% endif %}
                                             </div>
                                         </td>
                                     </tr>
@@ -95,65 +63,35 @@
                     </div>  
                 </div>
             </div>
-        {% else %} 
+        {% endif %}
 
 
-            {% if notes_count == 0 %}
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body pb-1">
-                                <table class="table table-striped">
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-center">
-                                                <div class="pb-2 pt-4">
-                                                    <h2>No Notes Found</h2>
-                                                    <p class="pb-0"><small>Add a Note by Clicking the Button "New Note"</small></p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>  
-                    </div>
-                </div>     
-            {% else %}
-
-                {% for category in object_list %}
-                    {% if category.notes %}
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ category.name }}</h5>
-                                    </div>
-                                    <div class="comment-widgets scrollable">
-                                        {% for note in category.notes %}
-                                            <div class="d-flex flex-row comment-row m-t-0">
-                                                <div class="comment-text w-100">
-                                                    <h6 class="font-medium font-weight-bold">{{ note.title }}</h6>
-                                                    <span id="{{ note.id }}" class="m-b-15 d-block">{{ note.content }}</span>
-                                                    <div class="comment-footer">
-                                                        <span class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>69</span> 
-                                                        <a class="btn btn-cyan" href="{% url 'main:Update_Note' id=note.id %}">Edit</a>
-                                                        <a class="btn btn-danger" href="{% url 'main:Delete_Note' id=note.id %}">Delete</a>
-                                                        <button class="btn btn-primary" onclick="copy_to_clipboard('{{ note.id }}');">Copy</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>                
-                            </div>
+        {% if search_text and object_list %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Results</h5>
                         </div>
-                    {% endif %}
-                {% endfor %}
-
-            {% endif %}
-
-           
+                        <div class="comment-widgets scrollable">
+                            {% for note in object_list %}
+                                <div class="d-flex flex-row comment-row m-t-0">
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium font-weight-bold">{{ note.title }}</h6>
+                                        <span id="{{ note.id }}" class="m-b-15 d-block">{{ note.content }}</span>
+                                        <div class="comment-footer">
+                                            <span class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>{{ note.num_of_favorites }}</span> 
+                                            <a class="btn btn-success" href="#">Favorite</a>
+                                            <a class="btn btn-info" href="#">Transfer</a>
+                                            <button class="btn btn-primary" onclick="copy_to_clipboard('{{ note.id }}');">Copy</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>                
+                </div>
+            </div>
         {% endif %}
 
     </div>

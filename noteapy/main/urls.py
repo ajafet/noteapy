@@ -21,7 +21,10 @@ urlpatterns = [
     path('categories/update/<int:id>/', views.UpdateCategory.as_view(), name="Update_Category"),
     path('categories/delete/<int:id>/', views.DeleteCategory.as_view(), name="Delete_Category"),
 
-    ## Favorites ##
+    ## Liked Notes ##
+    # path('favorites/', views.Favorites.as_view(), name="Favorites"), 
+    path('make_my_favorite/', views.make_my_favorite, name="Make_My_Favorite"), 
+    path('remove_favorite/', views.remove_favorite, name="Remove_Favorite"), 
     
     ## Search Notes ##
     path('search/', views.SearchNotes.as_view(), name="Search"), 

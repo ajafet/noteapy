@@ -1,4 +1,4 @@
-from main.models import Notes
+from main.models import Notes, Favorites
 from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, get_object_or_404
@@ -11,10 +11,6 @@ from main.forms import NotesForm
 from django.http import HttpResponse
 from django.db.models import Q
 
-## TO DO ##
-# Pagination Integration
-# Favorite Feature 
-# Transfer Feature 
 
 class SearchNotes(LoginRequiredMixin, ListView): 
     template_name = "main/search/search_notes.html"
@@ -28,6 +24,20 @@ class SearchNotes(LoginRequiredMixin, ListView):
 
         if search_text: 
             object_list = self.model.objects.filter(Q(title__contains=search_text) | Q(content__contains=search_text)).order_by('id')
+
+            object_list = list(object_list)
+
+            # Check if Note is Liked or Disliked 
+            for note in object_list: 
+                
+                is_favorite = Favorites.objects.filter(Q(user=self.request.user) & Q(note=note)).count()
+                
+                if is_favorite == 1: 
+                    note.is_favorite = True
+                else: 
+                    note.is_favorite = False
+
+
         else: 
             object_list = []
 

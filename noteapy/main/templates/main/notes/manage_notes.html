@@ -105,7 +105,7 @@
                 </div>     
             {% else %}
 
-                {% for category in object_list %}
+                {% for category in object_list %} 
                     {% if category.notes %}
                         <div class="row">
                             <div class="col-12">
@@ -120,7 +120,7 @@
                                                     <h6 class="font-medium font-weight-bold">{{ note.title }}</h6>
                                                     <span id="{{ note.id }}" class="m-b-15 d-block">{{ note.content }}</span>
                                                     <div class="comment-footer">
-                                                        <span class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>69</span> 
+                                                        <span class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>{{ note.num_of_favorites }}</span> 
                                                         <a class="btn btn-cyan" href="{% url 'main:Update_Note' id=note.id %}">Edit</a>
                                                         <a class="btn btn-danger" href="{% url 'main:Delete_Note' id=note.id %}">Delete</a>
                                                         <button class="btn btn-primary" onclick="copy_to_clipboard('{{ note.id }}');">Copy</button>

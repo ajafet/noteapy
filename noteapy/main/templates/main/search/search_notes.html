@@ -36,7 +36,6 @@
             </div>
         </div>
 
-
         {% if not object_list %}
             <div class="row">
                 <div class="col-12">
@@ -71,7 +70,39 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Results</h5>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">Results</h5>
+                                <ul class="pagination mb-0">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&page={{ page_obj.previous_page_number }}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+                                    {% else %}
+                                        <li class="page-item disabled"><span class="page-link"><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+                                    {% endif %}
+                                    
+                                    {% if page_obj.number|add:'-4' > 1 %}
+                                        <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
+                                    {% endif %}
+                                    
+                                    {% for i in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                                        {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                                            <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                                        <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
+                                    {% endif %}
+                                    
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item"><a class="page-link" href="?search_text={{ search_text }}&page={{ page_obj.next_page_number }}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+                                    {% else %}
+                                        <li class="page-item disabled"><span class="page-link"><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
                         </div>
                         <div class="comment-widgets scrollable">
                             {% for note in object_list %}
@@ -80,9 +111,14 @@
                                         <h6 class="font-medium font-weight-bold">{{ note.title }}</h6>
                                         <span id="{{ note.id }}" class="m-b-15 d-block">{{ note.content }}</span>
                                         <div class="comment-footer">
-                                            <span class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>{{ note.num_of_favorites }}</span> 
-                                            <a class="btn btn-success" href="#">Favorite</a>
-                                            <a class="btn btn-info" href="#">Transfer</a>
+                                            <span id="{{ note.id }}_favorites" class="text-muted float-right pr-2"><i class="far fa-star pr-1"></i>{{ note.num_of_favorites }}</span> 
+
+                                            {% if note.is_favorite %}
+                                                <button id="{{ note.id }}_fav_button" class="btn btn-danger" onclick="remove_favorite('{{ note.id }}');">Dislike</button>
+                                            {% else %}
+                                                <button id="{{ note.id }}_fav_button" class="btn btn-success" onclick="make_my_favorite('{{ note.id }}');">Like</button>
+                                            {% endif %}
+
                                             <button class="btn btn-primary" onclick="copy_to_clipboard('{{ note.id }}');">Copy</button>
                                         </div>
                                     </div>

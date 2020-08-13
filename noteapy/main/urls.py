@@ -22,7 +22,7 @@ urlpatterns = [
     path('categories/delete/<int:id>/', views.DeleteCategory.as_view(), name="Delete_Category"),
 
     ## Liked Notes ##
-    # path('favorites/', views.Favorites.as_view(), name="Favorites"), 
+    path('favorites/', views.ManageFavorites.as_view(), name="Favorites"), 
     path('make_my_favorite/', views.make_my_favorite, name="Make_My_Favorite"), 
     path('remove_favorite/', views.remove_favorite, name="Remove_Favorite"), 
     

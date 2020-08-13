@@ -1,0 +1,14 @@
+
++ Version 1.0 Left to Do:
+ 
+    - Show Messages When Action is Successful or Unsuccessful
+    - Allow Login With Username and Email 
+    - New Logo 
+    - Upload to Heroku for Testing
+
+
++ Future Features List: 
+
+    - Add Forgot Username or Email or Password Feature 
+    - Add Thanks For Creating an Account Feature 
+    - Add Ability to Create an Account 

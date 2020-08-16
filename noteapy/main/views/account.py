@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from main.forms import UpdateUserForm
+from django.contrib import messages
 
 
 class Account(LoginRequiredMixin, View): 
@@ -41,6 +42,7 @@ class UpdateAccount(LoginRequiredMixin, View):
         }
         if form.is_valid():
             form.save()
+            messages.add_message(request, messages.SUCCESS, "Your Account Has Been Updated")  
             return redirect('main:Account')
         else: 
             return render(request, "main/account/update_account.html", context)

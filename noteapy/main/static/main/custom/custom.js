@@ -10,6 +10,9 @@ function copy_to_clipboard(id) {
     document.execCommand("copy");
     $temp.remove();
 
+    // Show Note Was Copied to Clipboard
+    toastr.info('Text Has Been Added to Your Clipboard');
+
 }
 
 

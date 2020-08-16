@@ -11,6 +11,7 @@ from main.forms import NotesForm
 from django.http import HttpResponse
 from django.db.models import Q
 from django.http import Http404
+from django.contrib import messages
 
 
 class ManageFavorites(LoginRequiredMixin, ListView): 

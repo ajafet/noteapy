@@ -3,6 +3,7 @@
  
     - Show Messages When Action is Successful or Unsuccessful
     - Allow Login With Username and Email 
+    - Enable Admin Django Framework to Monitor Website
     - New Logo 
     - Upload to Heroku for Testing
 

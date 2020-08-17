@@ -10,7 +10,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from main.forms import CategoryForm
 from django.http import HttpResponse
 from django.db.models import Q
-
+from django.contrib import messages
+            
 
 class ManageCategories(LoginRequiredMixin, ListView): 
     template_name = "main/categories/manage_categories.html"
@@ -53,6 +54,7 @@ class NewCategory(LoginRequiredMixin, View):
             form_instance = form.save(commit=False)
             form_instance.user = request.user
             form_instance.save()
+            messages.add_message(request, messages.SUCCESS, "New Category Added")  
             return redirect('main:Categories')
         else: 
             return render(request, "main/categories/new_category.html", context)
@@ -93,6 +95,7 @@ class UpdateCategory(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         id_ = self.kwargs.get("id")
+        messages.add_message(self.request, messages.INFO, "Category Updated")  
         return reverse("main:View_Category", kwargs={"id": id_})
 
 
@@ -116,6 +119,7 @@ class DeleteCategory(LoginRequiredMixin, DeleteView):
         return context
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.WARNING, "Category Deleted")  
         return reverse("main:Categories") 
 
     

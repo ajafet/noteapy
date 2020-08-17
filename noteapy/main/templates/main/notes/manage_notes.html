@@ -144,4 +144,18 @@
 
 </div>
 
+{% if messages %}
+    {% for message in messages %}
+
+        {% if message.tags == 'success' %}
+            <script>toastr.success("{{ message }}", 'Success');</script>
+        {% elif message.tags == 'info' %}
+            <script>toastr.success("{{ message }}", 'Success');</script>
+        {% elif message.tags == 'warning' %}
+            <script>toastr.success("{{ message }}", 'Success');</script>
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
+
 {% endblock %}

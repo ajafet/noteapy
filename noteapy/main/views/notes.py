@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from main.forms import NotesForm
 from django.http import HttpResponse
 from django.db.models import Q
+from django.contrib import messages
 
 
 class ManageNotes(LoginRequiredMixin, ListView): 
@@ -91,6 +92,7 @@ class NewNote(LoginRequiredMixin, View):
             form_instance.author = request.user
             form_instance.num_of_favorites = 0
             form_instance.save()
+            messages.add_message(request, messages.SUCCESS, "New Note Added")  
             return redirect('main:Notes')
         else: 
             return render(request, "main/notes/new_note.html", context)
@@ -105,6 +107,7 @@ class UpdateNote(LoginRequiredMixin, UpdateView):
         return get_object_or_404(Notes, id=id_)
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, "Note Updated")  
         return reverse("main:Notes")
     
 
@@ -116,4 +119,5 @@ class DeleteNote(LoginRequiredMixin, DeleteView):
         return get_object_or_404(Notes, id=id_)
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.WARNING, "Note Deleted")  
         return reverse("main:Notes") 

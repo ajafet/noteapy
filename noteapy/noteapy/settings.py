@@ -22,7 +22,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bootcamp.settings")
 
 application = get_wsgi_application()
 application = DjangoWhiteNoise(application)
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.CompressedManifestStaticFilesStorage'
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

@@ -12,6 +12,19 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+
+# White Noise Stuff For Heroku Deployment 
+from django.core.wsgi import get_wsgi_application
+from whitenoise.django import DjangoWhiteNoise
+from dj_database_url import dj_database_url
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bootcamp.settings")
+
+application = get_wsgi_application()
+application = DjangoWhiteNoise(application)
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,13 +33,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '36=kv49*g&m)cd14(2py-%grn@olob7xtv)hl@pcw2&58kgi0e'
+SECRET_KEY =  config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+if DEBUG: 
+    ALLOWED_HOSTS = []
+else: 
+    ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -76,13 +91,19 @@ WSGI_APPLICATION = 'noteapy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DEBUG: 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
-
+else: 
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL')
+        )
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

@@ -30,7 +30,7 @@ DEBUG = False
 if DEBUG: 
     ALLOWED_HOSTS = []
 else: 
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['noteapy.herokuapp.com']
 
 # Application definition
 
@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'noteapy.urls'

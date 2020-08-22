@@ -14,15 +14,7 @@ import os
 
 
 # White Noise Stuff For Heroku Deployment 
-from django.core.wsgi import get_wsgi_application
-from whitenoise.django import DjangoWhiteNoise
-from dj_database_url import dj_database_url
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "noteapy.settings")
-
-application = get_wsgi_application()
-application = DjangoWhiteNoise(application)
-STATICFILES_STORAGE = 'whitenoise.django.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -65,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.whitenoise'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'noteapy.urls'

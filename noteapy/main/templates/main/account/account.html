@@ -30,7 +30,12 @@
                     </div>
                     <div class="card-body">
 
-                        <h3>{{ request.user.name }}</h3>
+                        {% if request.user.name %}
+                            <h3>{{ request.user.name }}</h3>
+                        {% else %}
+                            <h3 class="text-danger">Unavailable</h3>
+                        {% endif %}
+                        
                         <p class="text-muted">{{ request.user.username }}</p>
 
                         <hr class="ml-0" width="40%">
